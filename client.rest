@@ -1,0 +1,89 @@
+@URLbase = http://127.0.0.1:3000
+
+# @name AppControler @GetHello  
+### Rota que tras a mensagem de teste da parte prinicipal da aplicação
+GET {{URLbase}}/home/rota1
+
+### Rota que tras a mensagem de teste
+GET {{URLbase}}/notes/Mensagem/
+
+# NOTES
+### Rota que tras todas as notas
+GET {{URLbase}}/notes/
+// Limit e offset são parametros opcionais
+// Limit é a quantidade de notas que serão trazidas
+?limit=200 
+// Offset é a quantidade de notas que serão puladas
+&offset=300 
+
+### Rota que tras uma nota especifica
+GET {{URLbase}}/notes/2
+
+### Rota que cria uma nota
+POST {{URLbase}}/notes/
+Content-Type: application/json
+
+  {
+    "title": "Testenota 4",
+    "description": "Testdecricao",
+    "senderID": 11,
+    "receiverID": 1,
+    "done": false
+  }
+
+### Rota que atualiza uma nota
+PATCH {{URLbase}}/notes/2/
+Content-Type: application/json
+
+  {
+    "title": "voce consegue",
+    "description": "voce consegue",
+    "sender": 1,
+    "receiver": 11,
+    "done": false,
+    "created_at": "2024-12-27T00:03:35.508Z",
+    "updated_at": "2024-12-27T00:03:35.508Z"
+  }
+
+### Rota que deleta uma nota
+DELETE {{URLbase}}/notes/2/
+
+### Rotas de pessoas
+
+# PESSOAS
+### Rota que tras todas as pessoas
+GET {{URLbase}}/pessoas/GET_ALL/
+// Limit e offset são parametros opcionais
+// Limit é a quantidade de notas que serão trazidas
+?limit=200 
+// Offset é a quantidade de notas que serão puladas
+&offset=300 
+
+### Rota que tras uma pessoa especifica
+GET {{URLbase}}/pessoas/GET_ONE/2
+
+### Rota que cria uma pessoa
+POST {{URLbase}}/pessoas/CREATE/
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe1@example.com",
+  "password": "securepassword",
+  "PassHash": "teste"
+}
+
+### Rota que atualiza uma pessoa
+PATCH {{URLbase}}/pessoas/UPDATE/11/
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com",
+  "password": "newsecurepassword"
+}
+
+### Rota que deleta uma pessoa
+DELETE {{URLbase}}/pessoas/DELETE/2/
+
+
