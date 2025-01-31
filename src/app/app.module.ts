@@ -5,13 +5,26 @@ import { NotesModule } from 'src/notes/notes.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PessoasModule } from 'src/pessoas/pessoas.module';
 import { ConfigModule } from '@nestjs/config';
+import * as Joi from '@hapi/joi';
 //import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
     NotesModule,
     PessoasModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: 'env/.env',
+      validationSchema: Joi.object({
+        DW_TYPE: Joi.string().required(),
+        DW_HOST: Joi.string().required(),
+        DW_PORT: Joi.number().required(),
+        DW_USER: Joi.string().required(),
+        DW_PASSWORD: Joi.string().required(),
+        DW_DATABASE: Joi.string().required(),
+        DW_AUTO_LOAD_ENTITIES: Joi.boolean().required(),
+        DW_SYNCRONIZE: Joi.boolean().required(),
+      }),
+    }),
     TypeOrmModule.forRoot({
       type: process.env.DW_TYPE as 'postgres', // Tipo do banco de dados
       host: process.env.DW_HOST, // Endereço do banco de dados
