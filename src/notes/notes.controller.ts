@@ -39,9 +39,9 @@ export class NotesController {
   constructor(
     private readonly notesService: NotesService,
     private readonly noteUtils: NotesUtils,
-    @Inject(SERVER_NAME)
-    private readonly VariableName: string,
-    private readonly regexProtocol: RegExProtocol,
+    //@Inject(SERVER_NAME)
+    //private readonly VariableName: string,
+    //private readonly regexProtocol: RegExProtocol,
   ) {}
 
   // Ler uma mensagem de teste
@@ -73,7 +73,7 @@ export class NotesController {
   // Método da solicitaão GET
   @Get(':id')
   findOne(@Param('id') id: number) {
-    console.log(this.VariableName);
+    //console.log(this.VariableName);
     return this.notesService.findOne(id);
   }
 

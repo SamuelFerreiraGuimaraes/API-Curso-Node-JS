@@ -8,29 +8,29 @@ import {
   Post,
   ParseIntPipe,
   UsePipes,
-  Inject,
+  //Inject,
 } from '@nestjs/common';
 import { PessoasService } from './pessoas.service';
 import { CreatePessoaDto } from './DTO/create-pessoa.dto';
 import { UpdatePessoaDto } from './DTO/update-pessoa.dto';
 import { ParseIntIdPipe } from 'src/common/Pipes/Parse_Int_ID.pipe';
-import { NotesUtils } from 'src/notes/notes.utils';
-import { SERVER_NAME } from 'src/common/Filters/server_name.constant';
+//import { NotesUtils } from 'src/notes/notes.utils';
+//import { SERVER_NAME } from 'src/common/Filters/server_name.constant';
 
 @Controller('pessoas')
 @UsePipes(ParseIntIdPipe)
 export class PessoasController {
   constructor(
     private readonly pessoasService: PessoasService,
-    private readonly noteUtils: NotesUtils,
-    @Inject(SERVER_NAME) private readonly VariableName: string,
+    //private readonly noteUtils: NotesUtils,
+    //@Inject(SERVER_NAME) private readonly VariableName: string,
   ) {}
 
   // Ler todas as pessoas
   // Método da solicitação GET
   @Get('GET_ALL')
   findAll() {
-    console.log(this.VariableName);
+    //console.log(this.VariableName);
     return this.pessoasService.findAll();
   }
 
