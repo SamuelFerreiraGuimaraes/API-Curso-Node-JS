@@ -1,4 +1,3 @@
-// Importando os módulos necessários
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Note } from './entities/notes.entity';
 import { CreateNoteDto } from './DTO/create-note.dto';
@@ -53,13 +52,6 @@ export class NotesService {
     return notes;
   }
 
-  /* 
-  // Função para retornar todas as mensagens
-  async findAll() {
-    const notes = await this.noteRepository.find();
-    return notes;
-  } */
-
   // Função para retornar uma mensagem específica
   async findOne(id: number) {
     //const notes = this.notes.find((item) => item.id === +id);
@@ -79,7 +71,6 @@ export class NotesService {
           name: true,
         },
       },
-      // novo
       where: {
         id,
       },
@@ -118,17 +109,6 @@ export class NotesService {
     };
   }
 
-  /* 
-  // Função para criar uma nova mensagem (Antigo)
-  async createNote(CreateNoteDto: CreateNoteDto) {
-      ...CreateNoteDto,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
-    const note = await this.noteRepository.create(newNote);
-    return this.noteRepository.save(note);
-  } */
-
   // Função para atualizar uma mensagem
   async updateNote(id: number, UpdateNoteDto: UpdateNoteDto) {
     const note = await this.findOne(id);
@@ -139,29 +119,6 @@ export class NotesService {
     await this.noteRepository.save(note);
     return note;
   }
-
-  /* 
-  // Função para atualizar uma mensagem
-  async updateNote(id: number, UpdateNoteDto: UpdateNoteDto) {
-    const partialUpdateNoteDto = {
-      description: UpdateNoteDto?.description,
-      done: UpdateNoteDto?.done,
-      //sender: UpdateNoteDto?.sender,
-      //receiver: UpdateNoteDto?.receiver,
-    };
-    const note = await this.noteRepository.preload({
-      id,
-      ...partialUpdateNoteDto,
-    });
-
-    if (!note) {
-      this.ErrorNotFound();
-    }
-
-    await this.noteRepository.save(note);
-
-    return note;
-  } */
 
   // Função para deletar uma mensagem
   async removeNote(id: number) {
@@ -174,10 +131,5 @@ export class NotesService {
       this.ErrorNotFound();
     }
     return this.noteRepository.remove(note);
-  }
-
-  // Função para retornar uma mensagem de teste
-  Msg() {
-    return 'Salve galera do zap !';
   }
 }

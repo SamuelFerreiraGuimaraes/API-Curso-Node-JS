@@ -12,9 +12,11 @@ import {
 // Criando a entidade Note
 @Entity()
 export class Note {
+  // Definindo o ID como chave primária
   @PrimaryGeneratedColumn()
   id: number;
 
+  // Definindo as colunas da tabela
   @Column({ type: 'varchar', length: 100 })
   title: string;
 

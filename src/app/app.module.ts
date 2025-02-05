@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PessoasModule } from 'src/pessoas/pessoas.module';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import appConfig from './app.config';
+
+/* Essa parte é para utilizar protocolos REGEX no código */
 //import * as Joi from '@hapi/joi';
 // import appConfig from './app.config';
 // import { Type } from 'class-transformer';
@@ -39,6 +41,8 @@ import appConfig from './app.config';
   controllers: [AppController],
   providers: [
     AppService,
+
+    // Essa parte é para utilizar exception filters e guards
     /* {
       provide: APP_FILTER,
       useClass: ErrorExceptionFilter,
@@ -51,6 +55,8 @@ import appConfig from './app.config';
   exports: [],
 })
 export class AppModule {}
+
+// Essa parte é para utilizar middlewares no código
 /* export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(SimpleMiddleware).forRoutes({

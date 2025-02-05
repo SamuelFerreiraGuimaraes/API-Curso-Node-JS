@@ -1,27 +1,38 @@
-import { NestMiddleware } from '@nestjs/common';
-import { NextFunction, Request, Response } from 'express';
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
+import { tap } from 'rxjs';
 
-export class OutroMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    console.log('OutroMiddleware: Olá');
-    const authorization = req.headers?.authorization;
+// Interceptor para medir o tempo de execução de uma requisição
 
-    if (authorization) {
-      req['user'] = {
-        nome: 'Samuel',
-        sobrenome: 'Ferreira',
-      };
-    }
+@Injectable()
+export class TimeConnectionInterceptor implements NestInterceptor {
+  async intercept(context: ExecutionContext, next: CallHandler<any>) {
+    // Marca o início da execução do interceptor
+    const inicioInterceptor = Date.now();
+    console.log('Interceptor (TimeConnectionInterceptor) iniciado');
 
-    res.setHeader('CABECALHO', 'Do Middleware');
+    // Simula um atraso de 3 segundos (opcional)
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    // Terminando a cadeia de chamadas
-    // return res.status(404).send({
-    //   message: 'Não encontrado',
-    // });
+    // Continua o fluxo da requisição e mede o tempo de execução
+    return next.handle().pipe(
+      tap(() => {
+        // Marca o fim da execução do interceptor
+        const fimInterceptor = Date.now();
+        // Calcula o tempo decorrido
+        const elapseInterceptor = fimInterceptor - inicioInterceptor;
 
-    next();
-
-    console.log('OutroMiddleware: Tchau');
+        // Log do tempo de execução
+        console.log(
+          'Interceptor (TimeConnectionInterceptor) executado, duração de: ' +
+            elapseInterceptor +
+            'ms',
+        );
+      }),
+    );
   }
 }

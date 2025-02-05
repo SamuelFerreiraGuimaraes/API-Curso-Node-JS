@@ -4,11 +4,13 @@ import { NotesService } from './notes.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Note } from './entities/notes.entity';
 import { PessoasModule } from 'src/pessoas/pessoas.module';
-import { NotesUtils, NotesUtilsMock } from './notes.utils';
-import { SERVER_NAME } from 'src/common/Filters/server_name.constant';
-import { RegExProtocol } from 'src/common/Utils/regex.protocol';
-import { RemoveSpacesRegex } from 'src/common/Utils/Remove_Spaces.regex';
-import { LowerCaseLetterRegex } from 'src/common/Utils/LowerCase_Letter.regex';
+
+/* Essa parte é para utilizar protocolos REGEX no código */
+//import { NotesUtils /* , NotesUtilsMock */ } from './notes.utils';
+//import { SERVER_NAME } from 'src/common/Filters/server_name.constant';
+//import { RegExProtocol } from 'src/common/Utils/regex.protocol';
+//import { RemoveSpacesRegex } from 'src/common/Utils/Remove_Spaces.regex';
+//import { LowerCaseLetterRegex } from 'src/common/Utils/LowerCase_Letter.regex';
 
 @Module({
   // Importando o TypeOrmModule e passando a entidade Note no Banco de Dados
@@ -18,7 +20,8 @@ import { LowerCaseLetterRegex } from 'src/common/Utils/LowerCase_Letter.regex';
   // Importando o service
   providers: [
     NotesService,
-    {
+    /* Essa parte é para utilizar protocolos REGEX no código */
+    /* {
       provide: NotesUtils,
       useValue: new NotesUtilsMock(),
     },
@@ -29,8 +32,10 @@ import { LowerCaseLetterRegex } from 'src/common/Utils/LowerCase_Letter.regex';
     {
       provide: RegExProtocol,
       useValue: 1 === 1 ? RemoveSpacesRegex : LowerCaseLetterRegex,
-    },
+    }, */
   ],
-  exports: [NotesUtils, SERVER_NAME],
+  exports: [
+    /* NotesUtils, SERVER_NAME */
+  ],
 })
 export class NotesModule {}

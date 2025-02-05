@@ -1,9 +1,10 @@
+// Criado para utilizar o protocolo de regex
+// caso queira utilizar o protocolo de regex, descomente a parte do código
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class NotesUtils {
   inverteString(str: string) {
-    // Samuel -> leumaS
     console.log('NÃO É MOCK');
     return str.split('').reverse().join('');
   }
