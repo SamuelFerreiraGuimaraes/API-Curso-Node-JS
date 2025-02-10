@@ -1,6 +1,7 @@
 // Criado para utilizar o protocolo de regex
 // caso queira utilizar o protocolo de regex, descomente a parte do código
-import { Injectable } from '@nestjs/common';
+
+/* import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class NotesUtils {
@@ -17,3 +18,4 @@ export class NotesUtilsMock {
     return 'bla bla bla';
   }
 }
+*/

@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PessoasService } from 'src/pessoas/pessoas.service';
 import { PaginationDto } from 'src/common/DTO/paginatio.dto';
-import { NotesUtils } from './notes.utils';
+//import { NotesUtils } from './notes.utils';
 
 // Injetando o serviço
 @Injectable()
@@ -15,7 +15,7 @@ export class NotesService {
     @InjectRepository(Note)
     private readonly noteRepository: Repository<Note>,
     private readonly pessoaRepository: PessoasService,
-    private readonly noteUtils: NotesUtils,
+    //private readonly noteUtils: NotesUtils,
   ) {}
 
   // Função para retornar um erro 404
@@ -25,7 +25,7 @@ export class NotesService {
 
   // Função para retornar todas as mensagens
   async findAll(PaginationDto?: PaginationDto) {
-    console.log(this.noteUtils.inverteString('Samuel'));
+    //console.log(this.noteUtils.inverteString('Samuel'));
     //valores do pagination para a função
     const { limit = 10, offset = 0 } = PaginationDto;
 

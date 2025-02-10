@@ -68,9 +68,8 @@ Content-Type: application/json
 
 {
   "name": "John Doe",
-  "email": "john.doe1@example.com",
-  "password": "securepassword",
-  "PassHash": "teste"
+  "email": "john.doe2@example.com",
+  "password": "securepassword"
 }
 
 ### Rota que atualiza uma pessoa

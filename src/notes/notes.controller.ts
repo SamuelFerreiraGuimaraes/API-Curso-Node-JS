@@ -15,9 +15,9 @@ import { CreateNoteDto } from './DTO/create-note.dto';
 import { UpdateNoteDto } from './DTO/update-note.dto';
 import { PaginationDto } from 'src/common/DTO/paginatio.dto';
 import { ParseIntIdPipe } from 'src/common/Pipes/Parse_Int_ID.pipe';
-import { NotesUtils } from './notes.utils';
 
 /* Essa parte é para utilizar protocolos REGEX no código */
+//import { NotesUtils } from './notes.utils';
 //import { SERVER_NAME } from 'src/common/Filters/server_name.constant';
 //import { RegExProtocol } from 'src/common/Utils/regex.protocol';
 //import { AddHeaderInterceptor } from 'src/common/Interceptors/Add_Header.Interceptor';
@@ -38,8 +38,9 @@ import { NotesUtils } from './notes.utils';
 export class NotesController {
   constructor(
     private readonly notesService: NotesService,
-    private readonly noteUtils: NotesUtils,
+
     /* Essa parte é para utilizar protocolos REGEX no código */
+    //private readonly noteUtils: NotesUtils,
     //@Inject(SERVER_NAME)
     //private readonly VariableName: string,
     //private readonly regexProtocol: RegExProtocol,

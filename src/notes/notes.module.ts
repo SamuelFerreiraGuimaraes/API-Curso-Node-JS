@@ -6,11 +6,11 @@ import { Note } from './entities/notes.entity';
 import { PessoasModule } from 'src/pessoas/pessoas.module';
 
 /* Essa parte é para utilizar protocolos REGEX no código */
-//import { NotesUtils /* , NotesUtilsMock */ } from './notes.utils';
-//import { SERVER_NAME } from 'src/common/Filters/server_name.constant';
-//import { RegExProtocol } from 'src/common/Utils/regex.protocol';
-//import { RemoveSpacesRegex } from 'src/common/Utils/Remove_Spaces.regex';
-//import { LowerCaseLetterRegex } from 'src/common/Utils/LowerCase_Letter.regex';
+// import { NotesUtils /* , NotesUtilsMock */ } from './notes.utils';
+// import { SERVER_NAME } from 'src/common/Filters/server_name.constant';
+// import { RegExProtocol } from 'src/common/Utils/regex.protocol';
+// import { RemoveSpacesRegex } from 'src/common/Utils/Remove_Spaces.regex';
+// import { LowerCaseLetterRegex } from 'src/common/Utils/LowerCase_Letter.regex';
 
 @Module({
   // Importando o TypeOrmModule e passando a entidade Note no Banco de Dados

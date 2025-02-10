@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PessoasModule } from 'src/pessoas/pessoas.module';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import appConfig from './app.config';
+import { AuthModule } from 'src/Auth/auth.module';
 
 /* Essa parte é para utilizar protocolos REGEX no código */
 //import * as Joi from '@hapi/joi';
@@ -17,6 +18,7 @@ import appConfig from './app.config';
   imports: [
     NotesModule,
     PessoasModule,
+    AuthModule,
     ConfigModule.forRoot(),
     ConfigModule.forFeature(appConfig),
     TypeOrmModule.forRootAsync({

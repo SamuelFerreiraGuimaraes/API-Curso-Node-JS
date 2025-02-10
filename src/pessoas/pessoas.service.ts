@@ -8,6 +8,7 @@ import { CreatePessoaDto } from './DTO/create-pessoa.dto';
 import { UpdatePessoaDto } from './DTO/update-pessoa.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { HashServiceProtocol } from 'src/Auth/Hashing/hashing.service';
 
 // Injetando o serviço
 @Injectable()
@@ -15,6 +16,7 @@ export class PessoasService {
   constructor(
     @InjectRepository(Pessoa)
     private readonly pessoaRepository: Repository<Pessoa>,
+    private readonly hashService: HashServiceProtocol,
   ) {}
 
   // Função para retornar um erro 404
@@ -42,8 +44,15 @@ export class PessoasService {
   // Função para criar uma nova pessoa
   async createPessoa(CreatePessoaDto: CreatePessoaDto) {
     try {
+      const hashPassword = await this.hashService.hashPassword(
+        CreatePessoaDto.password,
+      );
+
       const newPessoa = {
-        ...CreatePessoaDto,
+        name: CreatePessoaDto.name,
+        email: CreatePessoaDto.email,
+        password: CreatePessoaDto.password,
+        PassHash: hashPassword,
         created_at: new Date(),
         updated_at: new Date(),
       };
@@ -64,8 +73,16 @@ export class PessoasService {
       name: UpdatePessoaDto?.name,
       email: UpdatePessoaDto?.email,
       password: UpdatePessoaDto?.password,
-      PassHash: UpdatePessoaDto?.PassHash,
+      //PassHash: UpdatePessoaDto?.PassHash,
     };
+
+    if (UpdatePessoaDto?.password) {
+      const hashPassword = await this.hashService.hashPassword(
+        UpdatePessoaDto.password,
+      );
+      partialUpdateNoteDto['PassHash'] = hashPassword;
+    }
+
     const pessoa = await this.pessoaRepository.preload({
       id,
       ...partialUpdateNoteDto,
