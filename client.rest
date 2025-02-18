@@ -1,5 +1,7 @@
 @URLbase = http://127.0.0.1:3000
 
+@authToken = {{authenticate.response.body.tokenacesso}}
+
 # @name AppControler @GetHello  
 ### Rota que tras a mensagem de teste da parte prinicipal da aplicação
 GET {{URLbase}}/home/rota1
@@ -14,7 +16,8 @@ GET {{URLbase}}/notes/
 // Limit é a quantidade de notas que serão trazidas
 ?limit=200 
 // Offset é a quantidade de notas que serão puladas
-&offset=300 
+&offset=300
+Authorization: Bearer {{authToken}}
 
 ### Rota que tras uma nota especifica
 GET {{URLbase}}/notes/2
@@ -58,7 +61,7 @@ GET {{URLbase}}/pessoas/GET_ALL/
 ?limit=200 
 // Offset é a quantidade de notas que serão puladas
 &offset=300 
-
+Authorization: Bearer {{authToken}}
 ### Rota que tras uma pessoa especifica
 GET {{URLbase}}/pessoas/GET_ONE/2
 
@@ -84,5 +87,16 @@ Content-Type: application/json
 
 ### Rota que deleta uma pessoa
 DELETE {{URLbase}}/pessoas/DELETE/2/
+
+# AUTH
+### Rota que faz login
+# @name authenticate
+POST {{URLbase}}/AUTH/
+Content-Type: application/json
+
+{
+  "email": "jane.doe@example.com",
+  "password": "newsecurepassword"
+}
 
 

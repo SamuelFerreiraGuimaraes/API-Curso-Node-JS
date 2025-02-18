@@ -9,6 +9,7 @@ import { UpdatePessoaDto } from './DTO/update-pessoa.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HashServiceProtocol } from 'src/Auth/Hashing/hashing.service';
+import { TokenPayloadDto } from 'src/Auth/DTO/token_payload.dto';
 
 // Injetando o serviço
 @Injectable()
@@ -68,7 +69,11 @@ export class PessoasService {
   }
 
   // Função para atualizar uma pessoa
-  async updatePessoa(id: number, UpdatePessoaDto: UpdatePessoaDto) {
+  async updatePessoa(
+    id: number,
+    UpdatePessoaDto: UpdatePessoaDto,
+    TokenPayLoad: TokenPayloadDto,
+  ) {
     const partialUpdateNoteDto = {
       name: UpdatePessoaDto?.name,
       email: UpdatePessoaDto?.email,
@@ -91,11 +96,16 @@ export class PessoasService {
     if (!pessoa) {
       this.ErrorNotFound();
     }
+
+    if (pessoa.id !== TokenPayLoad.sub) {
+      throw new ConflictException('This user is not allowed to update');
+    }
+
     return this.pessoaRepository.save(pessoa);
   }
 
   // Função para deletar uma pessoa
-  async removePessoa(id: number) {
+  async removePessoa(id: number, TokenPayLoad: TokenPayloadDto) {
     const pessoa = await this.pessoaRepository.findOne({
       where: {
         id,
@@ -104,6 +114,11 @@ export class PessoasService {
     if (!pessoa) {
       this.ErrorNotFound();
     }
+
+    if (pessoa.id !== TokenPayLoad.sub) {
+      throw new ConflictException('This user is not allowed to update');
+    }
+
     return this.pessoaRepository.remove(pessoa);
   }
 }

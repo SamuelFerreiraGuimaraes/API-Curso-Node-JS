@@ -8,12 +8,16 @@ import {
   Post,
   ParseIntPipe,
   UsePipes,
+  UseGuards,
   //Inject,
 } from '@nestjs/common';
 import { PessoasService } from './pessoas.service';
 import { CreatePessoaDto } from './DTO/create-pessoa.dto';
 import { UpdatePessoaDto } from './DTO/update-pessoa.dto';
 import { ParseIntIdPipe } from 'src/common/Pipes/Parse_Int_ID.pipe';
+import { AuthTokenGuard } from 'src/Auth/Guard/auth_token.guard';
+import { TokenPayLoadParam } from 'src/Auth/params/token_payload.param';
+import { TokenPayloadDto } from 'src/Auth/DTO/token_payload.dto';
 
 /* Essa parte é para utilizar protocolos REGEX no código */
 //import { NotesUtils } from 'src/notes/notes.utils';
@@ -27,6 +31,7 @@ import { ParseIntIdPipe } from 'src/common/Pipes/Parse_Int_ID.pipe';
 // Delete -> Delete -> Deletar Pessoas
 
 @Controller('pessoas')
+@UseGuards(AuthTokenGuard)
 @UsePipes(ParseIntIdPipe)
 export class PessoasController {
   constructor(
@@ -58,8 +63,11 @@ export class PessoasController {
 
   // Deletar uma pessoa - Método da solicitação DELETE
   @Delete('DELETE/:id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.pessoasService.removePessoa(id);
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @TokenPayLoadParam() tokenPayLoad: TokenPayloadDto,
+  ) {
+    return this.pessoasService.removePessoa(id, tokenPayLoad);
   }
 
   // Atualizar uma pessoa - Método da solicitação PATCH
@@ -67,11 +75,12 @@ export class PessoasController {
   updatePessoa(
     @Param('id') id: number,
     @Body() UpdateBodyDto: UpdatePessoaDto,
+    @TokenPayLoadParam() tokenPayLoad: TokenPayloadDto,
   ) {
     console.log(
       UpdateBodyDto.constructor.name,
       UpdateBodyDto instanceof UpdatePessoaDto,
     );
-    return this.pessoasService.updatePessoa(id, UpdateBodyDto);
+    return this.pessoasService.updatePessoa(id, UpdateBodyDto, tokenPayLoad);
   }
 }

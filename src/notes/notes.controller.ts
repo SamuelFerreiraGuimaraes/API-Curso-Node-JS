@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 
@@ -15,6 +16,7 @@ import { CreateNoteDto } from './DTO/create-note.dto';
 import { UpdateNoteDto } from './DTO/update-note.dto';
 import { PaginationDto } from 'src/common/DTO/paginatio.dto';
 import { ParseIntIdPipe } from 'src/common/Pipes/Parse_Int_ID.pipe';
+import { AuthTokenGuard } from 'src/Auth/Guard/auth_token.guard';
 
 /* Essa parte é para utilizar protocolos REGEX no código */
 //import { NotesUtils } from './notes.utils';
@@ -34,6 +36,7 @@ import { ParseIntIdPipe } from 'src/common/Pipes/Parse_Int_ID.pipe';
 // DTO -> Objeto simples -> Validar e transformar dados
 
 @Controller('notes')
+@UseGuards(AuthTokenGuard)
 @UsePipes(ParseIntIdPipe)
 export class NotesController {
   constructor(
