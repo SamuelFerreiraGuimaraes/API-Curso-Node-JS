@@ -2,6 +2,8 @@
 
 @authToken = {{authenticate.response.body.tokenacesso}}
 
+@refreshToken = {{authenticate.response.body.refreshToken}}
+
 # @name AppControler @GetHello  
 ### Rota que tras a mensagem de teste da parte prinicipal da aplicação
 GET {{URLbase}}/home/rota1
@@ -97,6 +99,15 @@ Content-Type: application/json
 {
   "email": "jane.doe@example.com",
   "password": "newsecurepassword"
+}
+
+### Rota que faz login
+# @name reAuthenticate
+POST {{URLbase}}/AUTH/REFRESH/
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
 }
 
 

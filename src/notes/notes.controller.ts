@@ -17,6 +17,8 @@ import { UpdateNoteDto } from './DTO/update-note.dto';
 import { PaginationDto } from 'src/common/DTO/paginatio.dto';
 import { ParseIntIdPipe } from 'src/common/Pipes/Parse_Int_ID.pipe';
 import { AuthTokenGuard } from 'src/Auth/Guard/auth_token.guard';
+import { TokenPayLoadParam } from 'src/Auth/params/token_payload.param';
+import { TokenPayloadDto } from 'src/Auth/DTO/token_payload.dto';
 
 /* Essa parte é para utilizar protocolos REGEX no código */
 //import { NotesUtils } from './notes.utils';
@@ -65,23 +67,33 @@ export class NotesController {
 
   // Criar uma nova nota - Método da solicitaão POST
   @Post()
-  createNote(@Body() CreateBodyDto: CreateNoteDto) {
-    return this.notesService.createNote(CreateBodyDto);
+  createNote(
+    @Body() CreateBodyDto: CreateNoteDto,
+    @TokenPayLoadParam() tokenPayLoad: TokenPayloadDto,
+  ) {
+    return this.notesService.createNote(CreateBodyDto, tokenPayLoad);
   }
 
   //Deletar uma nota - Método da solicitaão DELETE
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.notesService.removeNote(id);
+  remove(
+    @Param('id') id: number,
+    @TokenPayLoadParam() tokenPayLoad: TokenPayloadDto,
+  ) {
+    return this.notesService.removeNote(id, tokenPayLoad);
   }
 
   // Atualizar uma nota - Método da solicitaão PATCH
   @Patch(':id')
-  updateNote(@Param('id') id: number, @Body() UpdateBodyDto: UpdateNoteDto) {
+  updateNote(
+    @Param('id') id: number,
+    @Body() UpdateBodyDto: UpdateNoteDto,
+    @TokenPayLoadParam() tokenPayLoad: TokenPayloadDto,
+  ) {
     console.log(
       UpdateNoteDto.constructor.name,
       UpdateNoteDto instanceof UpdateNoteDto,
     );
-    return this.notesService.updateNote(id, UpdateBodyDto);
+    return this.notesService.updateNote(id, UpdateBodyDto, tokenPayLoad);
   }
 }

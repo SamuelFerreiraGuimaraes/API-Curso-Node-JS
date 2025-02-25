@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Note } from './entities/notes.entity';
 import { CreateNoteDto } from './DTO/create-note.dto';
 import { UpdateNoteDto } from './DTO/update-note.dto';
@@ -6,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PessoasService } from 'src/pessoas/pessoas.service';
 import { PaginationDto } from 'src/common/DTO/paginatio.dto';
+import { TokenPayloadDto } from 'src/Auth/DTO/token_payload.dto';
 //import { NotesUtils } from './notes.utils';
 
 // Injetando o serviço
@@ -80,11 +85,16 @@ export class NotesService {
   }
 
   // Função para criar uma nova mensagem
-  async createNote(CreateNoteDto: CreateNoteDto) {
+  async createNote(
+    CreateNoteDto: CreateNoteDto,
+    tokenPayLoad: TokenPayloadDto,
+  ) {
     // encontrar a pessoa que enviou e a que recebeu a messagem
-    const { senderID, receiverID } = CreateNoteDto;
+    const { receiverID } = CreateNoteDto;
 
-    const sender = await this.pessoaRepository.findOne(senderID);
+    // encontra a pessoa que envia a mensagem
+    const sender = await this.pessoaRepository.findOne(tokenPayLoad.sub);
+    // encontra a pessoa que recebe a mensagem
     const receiver = await this.pessoaRepository.findOne(receiverID);
 
     const newNote = {
@@ -102,16 +112,26 @@ export class NotesService {
       ...note,
       sender: {
         id: note.sender.id,
+        name: note.sender.name,
       },
       receiver: {
         id: note.receiver.id,
+        name: note.receiver.name,
       },
     };
   }
 
   // Função para atualizar uma mensagem
-  async updateNote(id: number, UpdateNoteDto: UpdateNoteDto) {
+  async updateNote(
+    id: number,
+    UpdateNoteDto: UpdateNoteDto,
+    tokenPayLoad: TokenPayloadDto,
+  ) {
     const note = await this.findOne(id);
+
+    if (note.sender.id !== tokenPayLoad.sub) {
+      throw new ForbiddenException('You are not allowed to update this note');
+    }
 
     note.title = UpdateNoteDto?.title ?? note.title;
     note.description = UpdateNoteDto?.title ?? note.title;
@@ -121,12 +141,13 @@ export class NotesService {
   }
 
   // Função para deletar uma mensagem
-  async removeNote(id: number) {
-    const note = await this.noteRepository.findOne({
-      where: {
-        id,
-      },
-    });
+  async removeNote(id: number, tokenPayLoad: TokenPayloadDto) {
+    const note = await this.findOne(id);
+
+    if (note.sender.id !== tokenPayLoad.sub) {
+      throw new ForbiddenException('You are not allowed to update this note');
+    }
+
     if (!note) {
       this.ErrorNotFound();
     }

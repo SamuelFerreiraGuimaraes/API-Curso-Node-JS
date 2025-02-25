@@ -18,9 +18,9 @@ export class CreateNoteDto {
   @IsNotEmpty({ message: 'O campo description é obrigatório' })
   readonly description: string;
 
-  @IsPositive()
+  /* @IsPositive()
   senderID: number;
-
+ */
   @IsPositive()
   receiverID: number;
 
